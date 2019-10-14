@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Philip Cohn-Cort
+ * Copyright 2017-2019 Philip Cohn-Cort
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,19 +63,19 @@ android {
 }
 
 dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
     // Starting with support lib 24.2.0, ViewPager should be included with the following directive
-    //compile "com.android.support:support-core-ui:$supportVersion"
+    //api "com.android.support:support-core-ui:$supportVersion"
 
     // Before that, though, this is the best way to include a ViewPager dependency.
     //noinspection GradleDependency
-    compile "com.android.support:support-v4:$supportVersion"
+    api "com.android.support:support-v4:$supportVersion"
 
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:2.2.5"
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:2.2.5"
 
     // Manually include the classes jars - javadoc can't be directly built from aars at this time
     javadocDeps fileTree(dir: "$project.buildDir/intermediates/exploded-aar/", include:"**/classes.jar")
@@ -103,13 +103,13 @@ task javadoc(type: Javadoc) {
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    archiveClassifier.set('javadoc')
     from javadoc.destinationDir
 }
 
 // A proper sources jar, with comments
 task androidSourcesJar(type: Jar) {
-    classifier = 'sources'
+    archiveClassifier.set('sources')
     from android.sourceSets.main.java.srcDirs
 }
 
